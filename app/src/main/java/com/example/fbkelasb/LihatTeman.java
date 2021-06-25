@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Adapter;
 
-import com.example.fbkelasb.adapter.AdapterLihatTeman;
+import com.example.fbkelasb.adapter.AdapterTeman;
 import com.example.fbkelasb.database.Teman;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -43,23 +44,25 @@ public class LihatTeman extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dataTeman = new ArrayList<>();
-                for (DataSnapshot daftarDS:snapshot.getChildren()){
-                    Teman tmn = daftarDS.getValue(Teman.class);
-                    tmn.setKode(daftarDS.getKey());
+                for (DataSnapshot noteDataSnapshot : snapshot.getChildren()){
+                    Teman tmn = noteDataSnapshot.getValue(Teman.class);
+                    tmn.setKode(noteDataSnapshot.getKey());
 
                     dataTeman.add(tmn);
                 }
-                adapter = new AdapterLihatTeman(dataTeman,LihatTeman.this);
+                adapter = new AdapterTeman(dataTeman,LihatTeman.this);
                 rcView.setAdapter(adapter);
 
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.out.println(error.getDetails()+""+error.getMessage());
-
-
+                System.out.println(error.getDetails() +" "+error.getMessage());
             }
         });
+    }
+    public static Intent getActIntent(Activity activity)
+    {
+        return new Intent(activity, LihatTeman.class);
     }
 }

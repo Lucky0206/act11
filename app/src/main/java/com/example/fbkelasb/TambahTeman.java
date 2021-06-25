@@ -14,8 +14,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class TambahTeman extends AppCompatActivity {
-    private EditText edNama, edTelpon;
-    private Button submitBtn;
+    EditText edNama, edTelpon;
+    Button submitBtn;
     private DatabaseReference database;
     String nm, tlp;
 
@@ -33,20 +33,16 @@ public class TambahTeman extends AppCompatActivity {
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!(edNama.getText().toString().isEmpty()) && !(edTelpon.getText().toString().isEmpty()))
-                {
-                   nm = edNama.getText().toString();
-                   tlp = edTelpon.getText().toString();
+                if (!(edNama.getText().toString().isEmpty()) && !(edTelpon.getText().toString().isEmpty())) {
+                    nm = edNama.getText().toString();
+                    tlp = edTelpon.getText().toString();
 
-                   submitTeman(new Teman(nm,tlp));
+                    submitTeman(new Teman(edNama.getText().toString(), edTelpon.getText().toString()));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Data tidak boleh kosong", Toast.LENGTH_LONG).show();
                 }
-                else
-                    Toast.makeText(TambahTeman.this,"Data tidak boleh kosong",Toast.LENGTH_SHORT).show();
-
-
             }
         });
-
     }
 
     private void submitTeman(Teman tmn)
@@ -56,9 +52,8 @@ public class TambahTeman extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 edNama.setText("");
                 edTelpon.setText("");
-                Toast.makeText(TambahTeman.this,"Data sukses ditambahkan",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Data sukses ditambahkan",Toast.LENGTH_LONG).show();
             }
         });
-
     }
 }
